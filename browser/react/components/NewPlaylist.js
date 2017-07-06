@@ -19,6 +19,9 @@ export default class NewPlaylist extends Component {
 
   handleSubmit(event) {
     console.log(this.state.input);
+    this.setState({
+      input: ''
+    })
     event.preventDefault();
   }
 
