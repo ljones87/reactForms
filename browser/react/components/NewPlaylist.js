@@ -17,8 +17,9 @@ export default class NewPlaylist extends Component {
     });
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
     console.log(this.state.input);
+    event.preventDefault();
   }
 
   render() {
