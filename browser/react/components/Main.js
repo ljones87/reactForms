@@ -24,7 +24,7 @@ export default class Main extends Component {
       .then(playlists => {
         this.setState({playlists})
       })
-      .catch(error => console.log(error))
+      .catch(error => console.error(error))
   }
 
   addToPlaylist(playlistName) {
@@ -35,6 +35,7 @@ export default class Main extends Component {
           playlists: [...this.state.playlists, playlist]
         })
       })
+      .catch(err => console.error(err))
   }
 
   render () {
