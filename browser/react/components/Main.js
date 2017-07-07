@@ -15,6 +15,7 @@ export default class Main extends Component {
     this.state = {
       playlists: []
     }
+    this.addToPlaylist = this.addToPlaylist.bind(this);
   }
 
   componentDidMount() {
@@ -24,6 +25,16 @@ export default class Main extends Component {
         this.setState({playlists})
       })
       .catch(error => console.log(error))
+  }
+
+  addToPlaylist(playlistName) {
+    axios.post('/api/playlists', { name: playlistName })
+      .then(res => res.data)
+      .then(playlist => {
+        this.setState({
+          playlists: [...this.state.playlists, playlist]
+        })
+      })
   }
 
   render () {
@@ -39,7 +50,7 @@ export default class Main extends Component {
               <Route path="/albums/:albumId" component={SingleAlbum} />
               <Route exact path="/artists" component={AllArtists} />
               <Route path="/artists/:artistId" component={SingleArtist} />
-              <Route exact path="/playlists" component={NewPlaylist} />
+              <Route exact path="/playlists" render={() => <NewPlaylist addToPlaylist={this.addToPlaylist} />} />
               <Route component={StatefulAlbums} />
             </Switch>
           </div>
