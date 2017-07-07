@@ -5,7 +5,8 @@ export default class NewPlaylist extends Component {
   constructor() {
     super();
     this.state = {
-      input: ""
+      input: '',
+      edited: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -13,7 +14,8 @@ export default class NewPlaylist extends Component {
 
   handleChange(event) {
     this.setState({
-      input: event.target.value
+      input: event.target.value,
+      edited: true
     });
   }
 
@@ -25,6 +27,8 @@ export default class NewPlaylist extends Component {
   }
 
   render() {
+
+
     return (
       <div className="well">
         <form className="form-horizontal" onSubmit={this.handleSubmit}>
@@ -34,7 +38,8 @@ export default class NewPlaylist extends Component {
               <label className="col-xs-2 control-label">Name</label>
               <div className="col-xs-10">
                 <input value={this.state.input} className="form-control" type="text" onChange={this.handleChange} />
-                <div className="alert alert-warning">Please enter a name</div>
+                  {(!this.state.input && this.state.edited) && <div className="alert alert-warning">Please enter a name</div>}
+                  {this.state.input.length > 16 && <div className="alert alert-warning">Limit 16 characters</div>}
               </div>
             </div>
             <div className="form-group">
