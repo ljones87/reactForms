@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import StatefulAlbums from './StatefulAlbums';
 import SingleAlbum from './SingleAlbum';
@@ -9,13 +10,28 @@ import Player from './Player';
 import NewPlaylist from './NewPlaylist';
 
 export default class Main extends Component {
+  constructor() {
+    super();
+    this.state = {
+      playlists: []
+    }
+  }
+
+  componentDidMount() {
+    axios.get('/api/playlists')
+      .then(res => res.data)
+      .then(playlists => {
+        this.setState({playlists})
+      })
+      .catch(error => console.log(error))
+  }
 
   render () {
     return (
       <Router>
         <div id="main" className="container-fluid">
           <div className="col-xs-2">
-            <Sidebar />
+            <Sidebar playlists={this.state.playlists} />
           </div>
           <div className="col-xs-10">
             <Switch>
