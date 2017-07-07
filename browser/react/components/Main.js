@@ -8,6 +8,7 @@ import SingleArtist from './SingleArtist';
 import Sidebar from './Sidebar';
 import Player from './Player';
 import NewPlaylist from './NewPlaylist';
+import Playlist from './Playlist';
 
 export default class Main extends Component {
   constructor() {
@@ -52,6 +53,7 @@ export default class Main extends Component {
               <Route exact path="/artists" component={AllArtists} />
               <Route path="/artists/:artistId" component={SingleArtist} />
               <Route exact path="/playlists" render={() => <NewPlaylist addToPlaylist={this.addToPlaylist} />} />
+              <Route path="/playlists/:playlistId" component={Playlist} />
               <Route component={StatefulAlbums} />
             </Switch>
           </div>
