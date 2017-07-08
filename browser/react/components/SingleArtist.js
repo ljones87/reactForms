@@ -12,13 +12,11 @@ class SingleArtist extends React.Component {
     this.state = {
       artist: {}
     };
+    this.getArtist = this.getArtist.bind(this);
   }
 
-  componentDidMount () {
-    const artistId = this.props.match.params.artistId;
-    const mainPath = `/api/artists/${artistId}`;
-    const paths = [mainPath, `${mainPath}/albums`, `${mainPath}/songs`];
-    Bluebird
+  getArtist(artist, mainPath, paths) {
+   Bluebird
       .map(paths, path => axios.get(path))
       .map(res => res.data)
       .spread((artist, albums, songs) => {
@@ -27,6 +25,25 @@ class SingleArtist extends React.Component {
         this.setState({ artist });
       });
   }
+  componentDidMount () {
+    const artist = this.props.match.params.artistId;
+    const mainPath = `/api/artists/${artist}`;
+    const paths = [mainPath, `${mainPath}/albums`, `${mainPath}/songs`];
+    this.getArtist(artist, mainPath, paths);
+
+  }
+
+
+
+  componentWillReceiveProps (nextProps) {
+    const nextArtist = nextProps.match.params.artistId;
+    const mainPath = `/api/artists/${nextArtist}`;
+    const paths = [mainPath, `${mainPath}/albums`, `${mainPath}/songs`];
+    if (this.state.artist.name !== nextArtist.name) {
+       this.getArtist(nextArtist, mainPath, paths);
+    }
+  }
+
 
   render () {
 

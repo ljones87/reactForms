@@ -9,16 +9,27 @@ export default class SingleAlbum extends Component {
     this.state = {
       album: {}
     };
+    this.getAlbum = this.getAlbum.bind(this);
   }
 
   componentDidMount () {
     const albumId = this.props.match.params.albumId;
+    this.getAlbum(albumId);
 
+  }
+
+  getAlbum(albumId) {
     axios.get(`/api/albums/${albumId}`)
       .then(res => res.data)
-      .then(album => this.setState({
-        album
-      }));
+      .then(album => this.setState({ album })
+      );
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const nextAlbum = nextProps.match.params.albumId;
+    if (this.state !== nextAlbum) {
+      this.getAlbum(nextAlbum)
+    }
   }
 
   render () {
